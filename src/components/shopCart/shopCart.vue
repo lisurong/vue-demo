@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="cart">
+    <div class="cart" @click="showClick()">
       <div class="cartL">
         <div class="logo">
           <div class="cr"></div>
@@ -11,7 +11,7 @@
       </div>
       <div class="cartR" :class="goPay">{{difference}}</div>    
     </div>
-     <div class="cartContent" v-if="totalNum>0">
+     <div class="cartContent" v-show="showFlag">
         <div class="cart-tit">
           <span class="tit-l">购物车</span>
           <span class="tit-r">清空</span>
@@ -25,7 +25,7 @@
         </div>
         </div>
       </div>
-      <div class="dig" v-if="totalNum>0"></div>
+      <div class="dig" v-show="showFlag"></div>
   </div>
 </template>
 
@@ -59,7 +59,7 @@ export default {
   },
   data(){
     return{
-      show:false
+      showFlag:false
     }
   },
   created() {
@@ -106,10 +106,19 @@ export default {
     }
   },
   methods:{
-    _initScrollCon () {
+    _initScrollCon:function(){
             this.aaa = new BScroll(this.$refs.aaa,{
                 click: true
             });
+      },
+      showClick:function(){
+        // console.log(this.totalNum)
+        if(this.totalNum>0){
+          this.showFlag = true;
+        }else{
+          this.showFlag = false;
+        }
+        
       }
   }
 }

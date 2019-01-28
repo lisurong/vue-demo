@@ -25,7 +25,7 @@
         </div>
         </div>
       </div>
-      <div class="dig" v-show="showFlag"></div>
+      <div class="dig" v-show="showFlag" @click="showD()"></div>
   </div>
 </template>
 
@@ -119,6 +119,9 @@ export default {
           this.showFlag = false;
         }
         
+      },
+      showD:function(){
+        this.showFlag =false;
       }
   }
 }

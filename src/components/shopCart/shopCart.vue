@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="cart" @click="showClick()">
-      <div class="cartL">
+    <div class="cart" >
+      <div class="cartL" @click="showClick()">
         <div class="logo">
           <div class="cr"></div>
           <div class="num">{{totalNum}}</div>
@@ -11,10 +11,10 @@
       </div>
       <div class="cartR" :class="goPay">{{difference}}</div>    
     </div>
-     <div class="cartContent" v-show="showFlag">
+     <div class="cartContent" v-show="showF">
         <div class="cart-tit">
           <span class="tit-l">购物车</span>
-          <span class="tit-r">清空</span>
+          <span class="tit-r" @click="empty()">清空</span>
         <div class="cart-con" ref="aaa">
           <ul>
             <li v-for="item in selFood">
@@ -25,13 +25,13 @@
         </div>
         </div>
       </div>
-      <div class="dig" v-show="showFlag" @click="showD()"></div>
+      <div class="dig" v-show="showF" @click="showD()"></div>
   </div>
 </template>
 
 <script>
-import control from '@/components/control/control';
-import BScroll from 'better-scroll';
+import control from '@/components/control/control'
+import BScroll from 'better-scroll'
 
 export default {
   components: {
@@ -68,7 +68,13 @@ export default {
         this._initScrollCon()
   },
   computed: {
-
+    showF:function(){
+      let a;
+      if(this.selFood.length){
+        a = this.showFlag
+      }
+      return a;
+    },
     //总价
     totalPrice:function(){
       let total = 0;
@@ -113,15 +119,19 @@ export default {
       },
       showClick:function(){
         // console.log(this.totalNum)
-        if(this.totalNum>0){
-          this.showFlag = true;
-        }else{
-          this.showFlag = false;
+        if(this.totalNum){
+          this.showFlag = !this.showFlag;
         }
         
       },
       showD:function(){
         this.showFlag =false;
+      },
+      empty:function(){
+        this.selFood.forEach((itme) => {
+          itme.num = 0;
+        })
+        this.showFlag=false;
       }
   }
 }
@@ -130,6 +140,7 @@ export default {
 <style scoped>
 .cart-con ul li{
   position: relative;
+  margin: 15px 0;
 }
 .cart{
   position: fixed;
@@ -210,12 +221,15 @@ export default {
     z-index: 10;
 }
 .cartContent{
-  height: 300px;
   position: fixed;
   bottom:50px;
   left:0;
   width: 100%;
   z-index: 100;
   background: #fff;
+}
+.cart-con{
+  height: 300px;
+  overflow: hidden;
 }
 </style>

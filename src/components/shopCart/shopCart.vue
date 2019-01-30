@@ -70,9 +70,10 @@ export default {
   computed: {
     showF:function(){
       let a;
-      if(this.selFood.length){
-        a = this.showFlag
+      if(!this.selFood.length){
+        this.showFlag=false;
       }
+       a = this.showFlag;
       return a;
     },
     //总价

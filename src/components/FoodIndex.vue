@@ -13,7 +13,7 @@
              <li v-for="(item,index) in goods"  class="food"> 
                 <strong>{{item.name}}</strong>
                 <ul>
-                    <li v-for="list in item.foods">
+                    <li v-for="list in item.foods" @click="detailFlag(list,$event)">
                       {{list.name}}<span class="price">{{list.price}}</span>
                       <control :list="list"></control>
                     </li>
@@ -22,6 +22,7 @@
           </ul>
         </div>
      </div>
+     <foodDetail :foodData="foodData1" v-show="detailF"></foodDetail>
      <shopCart :deliveryPrice="seller.deliveryPrice" :minPrice="seller.minPrice" :selFood="selFood"></shopCart>
   </div>
 </template>
@@ -29,19 +30,23 @@
 <script>
 import shopCart from '@/components/shopCart/shopCart'
 import control from '@/components/control/control'
+import foodDetail from '@/components/foodDetail/foodDetail'
 import BScroll from 'better-scroll'
 
 export default {
   components: {
       shopCart,
-      control
+      control,
+      foodDetail
   },
   data(){
       return{
        goods:[],
        listHeight: [],
        scrollY: 0,
-       seller:{}
+       seller:{},
+       foodData1:{},
+       detailF:false
   	}
   },
   created() {
@@ -124,6 +129,14 @@ export default {
           height += FoodList[i].clientHeight;
           this.listHeight.push(height);
         }
+      },
+      detailFlag(list,event){
+        if(!event._constructed){
+          return;
+        }
+        this.foodData1=list;
+        console.log(list)
+        this.detailF=true;
       }
       
   
